@@ -9,6 +9,8 @@ import (
 	// azure blob
 	"github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/Azure/azure-pipeline-go/pipeline"
+	// random string generator
+	randStr "github.com/dchest/uniuri"
 	// standard libraries
 	"log"
 	"math/rand"
@@ -34,6 +36,7 @@ var db *sql.DB
 var allowedImageTypes []string
 
 func main() {
+	genPostId()
 	// global variables
 	imageBaseUrl = `https://blogengine.blob.core.windows.net/images/`
 	allowedImageTypes = []string{"jpg", "jpeg", "png", "gif"}
@@ -99,6 +102,39 @@ func main() {
 
 	app.Listen(":3000")
 }
+
+// generate image id
+func genImageId() string {
+	var randomStr string = randStr.NewLen(30)
+	var timeStamp int = int(time.Now().UnixNano() / int64(time.Millisecond))
+	var finalId string = randomStr + strconv.Itoa(timeStamp)
+
+	return strings.ToLower(finalId)
+}
+
+// generate postid
+func genPostId() string {
+	letters := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", `n`, `o`, `m`, `q`, `r`, `s`, `t`, `u`, `v`, `w`, `x`, `y`, `z`}
+	var randomStr string = randStr.NewLen(10)
+	// timestamp in milliseconds
+	timeStamp := time.Now().UnixNano() / int64(time.Millisecond)
+	var timeStamp2 int64 = timeStamp / 1000
+	var finalTimeStamp string = strconv.Itoa(int(timeStamp2)) + "." + strconv.Itoa(int(timeStamp))[len(strconv.Itoa(int(timeStamp)))-3:]
+
+	finalTimeStamp = strings.Replace(finalTimeStamp, ".", "", 1)
+	var newTimeStamp string = ``
+	// encode timestamp to letters
+	
+	for _, s := range finalTimeStamp {
+		num1, _ := strconv.Atoi(string(s))
+		letter := letters[num1]
+		newTimeStamp = newTimeStamp + string(letter)
+	}
+	totalId := randomStr + newTimeStamp
+	fmt.Println(totalId)
+	return strings.ToLower(totalId)
+}
+
 
 func includes(data []string, elem string) bool {
 	elem = strings.ToLower(elem)

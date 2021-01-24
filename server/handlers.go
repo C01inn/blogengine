@@ -9,7 +9,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	// standard libraries
 	"log"
-	"math/rand"
 	"fmt"
 	"time"
 	"strconv"
@@ -111,22 +110,11 @@ func newpostRoute(c *fiber.Ctx) error {
 	}
 
 	// create unqiue post id
-	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	bb := make([]rune, 5)
-	for i := range bb {
-		bb[i] = letters[rand.Intn(len(letters))]
-	}
-	postId := string(bb) + strconv.Itoa(int(time.Now().Unix()))
+	postId := genPostId()
 
 	// save image files
 	for idx, x := range imageFiles {
-		letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-		b := make([]rune, 12)
-		for i := range b {
-			b[i] = letters[rand.Intn(len(letters))]
-		}
-
-		imageId := strconv.Itoa(int(time.Now().UnixNano() / int64(time.Millisecond))) + string(b)
+		imageId := genImageId()
 		imageType := strings.Split(x.Header["Content-Type"][0], "/")[1]
 		// make sure good file type
 		if includes(allowedImageTypes, imageType) == false {

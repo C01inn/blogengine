@@ -5,10 +5,17 @@
     <h1 class="header-1">Recent Articles</h1>
 
     <div id="articles" class="mx-auto">
+      <!-- old card -->
+      <!-- 
       <div class="shadow-2xl rounded-xl p-1 border border-gray-300 cursor-pointer article-card" v-for="article in articles" :key="article" @click="articleClick(article.PostId)">
         <h1 class="p-2 article-title" v-if="article.ImageId">{{article.Title}}</h1>
         <h1 class="p-2 article-title-2" v-else-if="!article.ImageId">{{article.Title}}</h1>
         <img :src="imageBaseUrl + article.ImageId + `.` + article.Filetype" class="p-2 rounded-lg article-image" v-if="article.ImageId">
+      </div>  -->
+      <div class="shadow-2xl border border-gray-300 cursor-pointer article-card" v-for="article in articles" :key="article" @click="articleClick(article.PostId)">
+        <h1 class="p-2 article-title" v-if="article.ImageId">{{article.Title}}</h1>
+        <h1 class="p-2 article-title-2" v-else-if="!article.ImageId">{{article.Title}}</h1>
+        <img :src="imageBaseUrl + article.ImageId + `.` + article.Filetype" class="article-image" v-if="article.ImageId">
       </div>
     </div>
 
@@ -58,7 +65,14 @@ export default {
 .article-image {
   margin-right: auto;
   margin-left: auto;
-  max-width: 90%;
+  min-width: 80%;
+  max-width: 100%;
+}
+
+.article-card {
+  font-family: 'Lato', sans-serif;
+  color: #0D0D0D;
+  font-weight: 600;
 }
 
 .article-card:hover {
@@ -67,19 +81,19 @@ export default {
 }
 
 .article-title-2 {
-  font-size: 2.2em;
+  font-size: 2em;
 }
 
 .article-title {
-  font-size: 1.7em;
+  font-size: 1.5em;
 }
 
 #articles {
   margin-top: 2rem;
   margin-bottom: 5rem;
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2em;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   width: 80vw;
 }
 
@@ -88,7 +102,7 @@ export default {
     margin-top: 2rem;
     margin-bottom: 5rem;
     display: grid;
-    gap: 1rem;
+    gap: 1em;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     width: 80vw;
   }
@@ -98,9 +112,12 @@ export default {
     margin-top: 2rem;
     margin-bottom: 5rem;
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     width: 90vw;
+  }
+  .article-title {
+    font-size: 1.3em;
   }
 }
 
